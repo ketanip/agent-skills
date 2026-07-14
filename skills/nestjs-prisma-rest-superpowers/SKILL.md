@@ -1,5 +1,5 @@
 ---
-name: nestjs-rest-api-standards
+name: nestjs-prisma-rest-superpowers
 description: >
   Comprehensive REST API standards for NestJS + Prisma projects. Use this skill whenever the user is:
   - Designing or structuring REST API endpoints in NestJS
