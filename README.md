@@ -41,6 +41,15 @@ This skill treats parameter shape as the load-bearing part of the job and ships 
 
 Five reference files + bundled tooling. → [Full details](skills/meta-pixel)
 
+### [`analytics-js`](skills/analytics-js) — vendor-agnostic analytics that delivers its events
+
+A plugin factory registered uninvoked. An enricher listed after the provider it enriches. A script-loading plugin with no `loaded()`. An `abort()` that isn't returned. Every one of these builds, runs, reviews clean — and quietly drops events. **Three of the four appear in analytics-js's own docs**, so an agent copying from them reproduces the bugs faithfully.
+
+This skill treats the plugins array as a **pipeline** — order is semantics, not style — and ships a **linter** validated against 145 code samples from the official documentation. Zero dependencies, CI-ready.
+
+Six reference files + bundled tooling. → [Full details](skills/analytics-js)
+Distilled from [getanalytics.io](https://getanalytics.io); `analytics` is by [David Wells](https://github.com/DavidWells/analytics) (MIT).
+
 ---
 
 ## Install
@@ -52,6 +61,7 @@ npx skills add ketanip/agent-skills
 # or pick one
 npx skills add ketanip/agent-skills --skill nestjs-prisma-rest-superpowers
 npx skills add ketanip/agent-skills --skill meta-pixel
+npx skills add ketanip/agent-skills --skill analytics-js
 ```
 
 Taking the whole collection costs you nothing: skills are **inert until relevant**. The NestJS playbook doesn't touch your context while you're wiring up a pixel, and vice versa.
