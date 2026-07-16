@@ -14,6 +14,8 @@
       "description": "Tracking and ad-platform integrations, with the parameter shapes that actually feed optimization.",
       "skills": [
         "meta-pixel",
+        "meta-conversions-api",
+        "gtm-ga4-meta-tracking",
         "analytics-js"
       ]
     }

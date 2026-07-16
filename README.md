@@ -41,6 +41,23 @@ This skill treats parameter shape as the load-bearing part of the job and ships 
 
 Five reference files + bundled tooling. → [Full details](skills/meta-pixel)
 
+### [`meta-conversions-api`](skills/meta-conversions-api) — server-side CAPI events that actually match
+
+`200 OK` with `events_received: 1` is not proof of anything. The event can land, count, and still be unattributed and unoptimizable. The trap is that the browser Pixel hashes your PII for you and the server does not — so `user_data` must be normalized and SHA-256'd yourself, while `fbp`/`fbc`/IP/user-agent must be sent **raw**. Get that backwards and match quality quietly collapses instead of erroring.
+
+Every rule here is quoted from Meta's docs rather than recalled — including the five published hash vectors that prove a plausible `replace(/[^a-z]/g,'')` normalizer hashes the empty string for a name like `정`. Ships a **linter** that catches inverted hashing, fabricated `fbc`, and missing `action_source`/`event_id`.
+
+Four reference files + bundled tooling. → [Full details](skills/meta-conversions-api)
+Distilled from Meta's [Conversions API documentation](https://developers.facebook.com/documentation/ads-commerce/conversions-api). Unofficial; not affiliated with Meta.
+
+### [`gtm-ga4-meta-tracking`](skills/gtm-ga4-meta-tracking) — one dataLayer, GA4 and Meta both fed correctly
+
+The whole stack fails silently. A `crypto.randomUUID()` `event_id` means the Pixel and CAPI never dedup, so every conversion counts twice. An `ecommerce` object not nulled between pushes bleeds the last event's items into this one, and the totals stay plausible. Pre-hashing email in the dataLayer feels like the careful thing to do and silently kills Enhanced Conversions. None of it throws.
+
+Covers the layer around the tags: dataLayer schema, GTM variables and triggers, GA4's ecommerce spec and its non-retroactive custom-dimension quotas, server-side GTM, and Consent Mode v2. Ships a **linter** — which documents its own blind spot: it can't follow an `event_id` across a network boundary, so a clean run is not evidence of dedup.
+
+Six reference files + bundled tooling. → [Full details](skills/gtm-ga4-meta-tracking)
+
 ### [`analytics-js`](skills/analytics-js) — vendor-agnostic analytics that delivers its events
 
 A plugin factory registered uninvoked. An enricher listed after the provider it enriches. A script-loading plugin with no `loaded()`. An `abort()` that isn't returned. Every one of these builds, runs, reviews clean — and quietly drops events. **Three of the four appear in analytics-js's own docs**, so an agent copying from them reproduces the bugs faithfully.
@@ -61,6 +78,8 @@ npx skills add ketanip/agent-skills
 # or pick one
 npx skills add ketanip/agent-skills --skill nestjs-prisma-rest-superpowers
 npx skills add ketanip/agent-skills --skill meta-pixel
+npx skills add ketanip/agent-skills --skill meta-conversions-api
+npx skills add ketanip/agent-skills --skill gtm-ga4-meta-tracking
 npx skills add ketanip/agent-skills --skill analytics-js
 ```
 
