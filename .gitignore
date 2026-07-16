@@ -1,3 +1,7 @@
 # Local source material for skill authoring — not redistributed.
 # Contains vendor documentation copied verbatim; skills deep-link the canonical source instead.
 docs/
+
+# Agent instruction files — local only.
+CLAUDE.md
+AGENTS.md
